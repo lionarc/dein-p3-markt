@@ -2,12 +2,11 @@ import { useState } from 'react';
 import { CartProvider } from './context/CartContext';
 import QRScanner from './components/QRScanner';
 import ShoppingCart from './components/ShoppingCart';
-import ProductList from './components/ProductList';
 import AdminPanel from './components/AdminPanel';
 import './App.css';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<'scan' | 'products' | 'cart' | 'admin'>('scan');
+  const [activeTab, setActiveTab] = useState<'scan' | 'cart' | 'admin'>('scan');
 
   return (
     <CartProvider>
@@ -25,12 +24,6 @@ function App() {
             📷 Scanner
           </button>
           <button
-            className={activeTab === 'products' ? 'nav-button active' : 'nav-button'}
-            onClick={() => setActiveTab('products')}
-          >
-            📦 Produkte
-          </button>
-          <button
             className={activeTab === 'cart' ? 'nav-button active' : 'nav-button'}
             onClick={() => setActiveTab('cart')}
           >
@@ -46,7 +39,6 @@ function App() {
 
         <main className="app-content">
           {activeTab === 'scan' && <QRScanner />}
-          {activeTab === 'products' && <ProductList />}
           {activeTab === 'cart' && <ShoppingCart />}
           {activeTab === 'admin' && <AdminPanel />}
         </main>

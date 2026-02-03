@@ -1,6 +1,8 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import type { ReactNode } from 'react';
 import type { CartItem, Product } from '../types';
+
+const CART_STORAGE_KEY = 'p3-markt-cart';
 
 interface CartContextType {
   cart: CartItem[];
@@ -13,8 +15,35 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+// Load cart from localStorage
+const loadCartFromStorage = (): CartItem[] => {
+  try {
+    const stored = localStorage.getItem(CART_STORAGE_KEY);
+    if (stored) {
+      return JSON.parse(stored);
+    }
+  } catch (error) {
+    console.error('Error loading cart from storage:', error);
+  }
+  return [];
+};
+
+// Save cart to localStorage
+const saveCartToStorage = (cart: CartItem[]) => {
+  try {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+  } catch (error) {
+    console.error('Error saving cart to storage:', error);
+  }
+};
+
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartItem[]>(loadCartFromStorage);
+
+  // Save to localStorage whenever cart changes
+  useEffect(() => {
+    saveCartToStorage(cart);
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {

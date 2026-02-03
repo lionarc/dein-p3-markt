@@ -1,6 +1,8 @@
 {
   "projects": {
-    "default": "your-project-id"
+    "default": "p3-markt"
   },
+  "targets": {},
+  "etags": {},
   "comment": "Replace 'your-project-id' with your actual Firebase project ID"
 }

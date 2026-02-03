@@ -16,8 +16,8 @@ Ein webbasiertes Einkaufsspiel, bei dem Spieler QR-Codes finden und scannen kön
 - **Frontend**: Vite + React + TypeScript
 - **Backend**: Firebase Spark (kostenloser Plan)
   - Firestore (Datenbank)
-  - Firebase Storage (Bildspeicher)
   - Firebase Hosting (Deployment)
+- **Bilder**: Statische Dateien im `public/images/` Ordner
 - **QR-Scanner**: html5-qrcode
 
 ## 🚀 Installation und Setup
@@ -46,8 +46,7 @@ npm install
 1. Gehen Sie zu [Firebase Console](https://console.firebase.google.com/)
 2. Erstellen Sie ein neues Projekt
 3. Aktivieren Sie Firestore Database
-4. Aktivieren Sie Firebase Storage
-5. Aktivieren Sie Firebase Hosting
+4. Aktivieren Sie Firebase Hosting
 
 ### 4. Firebase-Konfiguration
 
@@ -86,7 +85,6 @@ firebase init
 Deployen Sie die Sicherheitsregeln:
 ```bash
 firebase deploy --only firestore:rules
-firebase deploy --only storage:rules
 ```
 
 ### 6. Entwicklungsserver starten
@@ -130,8 +128,14 @@ firebase deploy --only hosting
    - Beschreibung
    - Preis
    - QR-Code Text (z.B. "PROD-001")
-   - Produktbild hochladen
+   - Bild-URL (z.B. `/images/apfel.jpg`)
 4. Klicken Sie auf "Produkt erstellen"
+
+### Bilder hinzufügen
+
+1. Legen Sie Produktbilder in den Ordner `public/images/`
+2. Verwenden Sie im Admin-Panel die URL `/images/dateiname.jpg`
+3. Unterstützte Formate: JPG, PNG, WebP
 
 ### QR-Codes erstellen
 
@@ -161,9 +165,9 @@ dein-p3-markt/
 │   ├── App.tsx             # Haupt-App-Komponente
 │   └── main.tsx            # Einstiegspunkt
 ├── public/                 # Statische Dateien
+│   └── images/             # Produktbilder
 ├── firebase.json           # Firebase-Konfiguration
 ├── firestore.rules         # Firestore-Sicherheitsregeln
-├── storage.rules           # Storage-Sicherheitsregeln
 └── .env.example            # Beispiel-Umgebungsvariablen
 ```
 
@@ -175,16 +179,14 @@ Diese Anwendung wurde als Demo/Prototyp entwickelt und verwendet vereinfachte Si
 
 - **Admin-Zugriff**: Geschützt durch einen einfachen Admin-Schlüssel (clientseitig, nicht sicher für Produktion)
 - **Firestore Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (nur für Demo)
-- **Storage Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (nur für Demo)
 
 ⚠️ **Für Produktionsumgebungen:**
 
 1. Implementieren Sie Firebase Authentication mit benutzerdefinierten Claims für Admin-Zugriff
 2. Aktualisieren Sie Firestore Rules, um Schreibzugriff nur für authentifizierte Admins zu erlauben
-3. Aktualisieren Sie Storage Rules, um Uploads nur für authentifizierte Benutzer zu erlauben
-4. Verwenden Sie Firebase Security Rules Emulator für Tests
-5. Implementieren Sie Rate Limiting und Input Validation
-6. Überwachen Sie Firebase Usage und setzen Sie Budgetalarme
+3. Verwenden Sie Firebase Security Rules Emulator für Tests
+4. Implementieren Sie Rate Limiting und Input Validation
+5. Überwachen Sie Firebase Usage und setzen Sie Budgetalarme
 
 **Beispiel für sichere Firestore Rules:**
 ```

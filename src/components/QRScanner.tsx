@@ -2,11 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { productService } from '../services/productService';
 import { useCart } from '../context/CartContext';
+import type { Product } from '../types';
 import '../styles/QRScanner.css';
 
 const QRScanner: React.FC = () => {
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
+  const [scannedProduct, setScannedProduct] = useState<Product | null>(null);
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const { addToCart } = useCart();
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const scannerDivRef = useRef<HTMLDivElement>(null);
@@ -30,14 +33,11 @@ const QRScanner: React.FC = () => {
             const product = await productService.getProductByQRCode(decodedText);
             
             if (product) {
-              addToCart(product);
-              setMessage(`${product.name} wurde zum Warenkorb hinzugefügt! 🎉`);
-              
-              // Stop scanning after successful scan
+              // Stop scanning and show confirmation dialog
               await stopScanning();
-              
-              // Clear message after 3 seconds
-              setTimeout(() => setMessage(''), 3000);
+              setScannedProduct(product);
+              setShowConfirmDialog(true);
+              setMessage('');
             } else {
               setMessage('Produkt nicht gefunden. Bitte versuchen Sie es erneut.');
               setTimeout(() => setMessage(''), 3000);
@@ -81,6 +81,23 @@ const QRScanner: React.FC = () => {
     };
   }, []);
 
+  const handleConfirmAdd = () => {
+    if (scannedProduct) {
+      addToCart(scannedProduct);
+      setMessage(`${scannedProduct.name} wurde zum Warenkorb hinzugefügt! 🎉`);
+      setTimeout(() => setMessage(''), 3000);
+    }
+    setShowConfirmDialog(false);
+    setScannedProduct(null);
+  };
+
+  const handleCancelAdd = () => {
+    setShowConfirmDialog(false);
+    setScannedProduct(null);
+    setMessage('Produkt wurde nicht hinzugefügt.');
+    setTimeout(() => setMessage(''), 3000);
+  };
+
   return (
     <div className="qr-scanner">
       <h2>QR-Code Scanner</h2>
@@ -101,6 +118,36 @@ const QRScanner: React.FC = () => {
       {message && (
         <div className={`scanner-message ${message.includes('hinzugefügt') ? 'success' : 'info'}`}>
           {message}
+        </div>
+      )}
+
+      {showConfirmDialog && scannedProduct && (
+        <div className="confirm-dialog-overlay">
+          <div className="confirm-dialog">
+            <h3>Produkt gefunden! 🎉</h3>
+            <div className="confirm-product-info">
+              {scannedProduct.imageUrl && (
+                <img 
+                  src={scannedProduct.imageUrl} 
+                  alt={scannedProduct.name}
+                  className="confirm-product-image"
+                />
+              )}
+              <div className="confirm-product-details">
+                <p className="confirm-product-name">{scannedProduct.name}</p>
+                <p className="confirm-product-price">{scannedProduct.price.toFixed(2)} €</p>
+              </div>
+            </div>
+            <p>Möchtest du dieses Produkt zum Warenkorb hinzufügen?</p>
+            <div className="confirm-dialog-buttons">
+              <button onClick={handleConfirmAdd} className="btn-primary">
+                ✅ Ja, hinzufügen
+              </button>
+              <button onClick={handleCancelAdd} className="btn-secondary">
+                ❌ Nein, abbrechen
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>

@@ -104,3 +104,92 @@
 .btn-logout:hover {
   background: #545b62;
 }
+
+.admin-divider {
+  margin: 30px 0;
+  border: none;
+  border-top: 1px solid #ddd;
+}
+
+.admin-product-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-product-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fafafa;
+}
+
+.admin-product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.admin-product-info {
+  flex: 1;
+}
+
+.admin-product-info h4 {
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.admin-product-price {
+  margin: 0 0 4px 0;
+  font-size: 14px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.admin-product-qr {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.admin-product-qr code {
+  background: #e9ecef;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+  color: #d63384;
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s;
+  flex-shrink: 0;
+}
+
+.btn-delete:hover {
+  background: #c82333;
+}
+
+@media (max-width: 600px) {
+  .admin-product-item {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .admin-product-image {
+    width: 100px;
+    height: 100px;
+  }
+}

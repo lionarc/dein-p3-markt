@@ -2,12 +2,13 @@ import {
   collection,
   addDoc,
   getDocs,
+  deleteDoc,
+  doc,
   query,
   where,
   Timestamp,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from '../firebase';
+import { db } from '../firebase';
 import type { Product } from '../types';
 
 const PRODUCTS_COLLECTION = 'products';
@@ -19,14 +20,9 @@ export const productService = {
     description: string,
     price: number,
     qrCode: string,
-    imageFile: File
+    imageUrl: string
   ): Promise<string> {
     try {
-      // Upload image to Firebase Storage
-      const imageRef = ref(storage, `products/${Date.now()}_${imageFile.name}`);
-      await uploadBytes(imageRef, imageFile);
-      const imageUrl = await getDownloadURL(imageRef);
-
       // Add product to Firestore
       const docRef = await addDoc(collection(db, PRODUCTS_COLLECTION), {
         name,
@@ -97,6 +93,16 @@ export const productService = {
       };
     } catch (error) {
       console.error('Error getting product by QR code:', error);
+      throw error;
+    }
+  },
+
+  // Delete a product
+  async deleteProduct(productId: string): Promise<void> {
+    try {
+      await deleteDoc(doc(db, PRODUCTS_COLLECTION, productId));
+    } catch (error) {
+      console.error('Error deleting product:', error);
       throw error;
     }
   },

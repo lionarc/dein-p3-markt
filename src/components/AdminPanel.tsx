@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { productService } from '../services/productService';
+import type { Product } from '../types';
 import '../styles/AdminPanel.css';
 
 const AdminPanel: React.FC = () => {
@@ -11,11 +12,32 @@ const AdminPanel: React.FC = () => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [qrCode, setQrCode] = useState('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loadingProducts, setLoadingProducts] = useState(false);
+
   const correctAdminKey = import.meta.env.VITE_ADMIN_KEY || 'admin123';
+
+  const loadProducts = async () => {
+    setLoadingProducts(true);
+    try {
+      const allProducts = await productService.getAllProducts();
+      setProducts(allProducts);
+    } catch (error) {
+      console.error('Error loading products:', error);
+    } finally {
+      setLoadingProducts(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      loadProducts();
+    }
+  }, [isAuthenticated]);
 
   const handleAuth = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,16 +49,29 @@ const AdminPanel: React.FC = () => {
     }
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
+  const handleDelete = async (productId: string, productName: string) => {
+    if (!confirm(`Möchtest du "${productName}" wirklich löschen?`)) {
+      return;
+    }
+
+    try {
+      await productService.deleteProduct(productId);
+      setMessage(`✅ "${productName}" wurde gelöscht.`);
+      await loadProducts();
+      setTimeout(() => setMessage(''), 3000);
+    } catch (error) {
+      console.error('Error deleting product:', error);
+      setMessage('❌ Fehler beim Löschen des Produkts.');
+      setTimeout(() => setMessage(''), 3000);
     }
   };
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !description || !price || !qrCode || !imageFile) {
+    if (!name || !description || !price || !qrCode || !imageUrl) {
       setMessage('Bitte füllen Sie alle Felder aus.');
       return;
     }
@@ -50,7 +85,7 @@ const AdminPanel: React.FC = () => {
         description,
         parseFloat(price),
         qrCode,
-        imageFile
+        imageUrl
       );
 
       setMessage('✅ Produkt erfolgreich erstellt!');
@@ -60,11 +95,10 @@ const AdminPanel: React.FC = () => {
       setDescription('');
       setPrice('');
       setQrCode('');
-      setImageFile(null);
-      
-      // Reset file input
-      const fileInput = document.getElementById('image-input') as HTMLInputElement;
-      if (fileInput) fileInput.value = '';
+      setImageUrl('');
+
+      // Reload products list
+      await loadProducts();
 
       setTimeout(() => setMessage(''), 5000);
     } catch (error) {
@@ -158,19 +192,21 @@ const AdminPanel: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="image-input">Produktbild:</label>
+          <label htmlFor="image-url">Bild-URL:</label>
           <input
-            type="file"
-            id="image-input"
-            accept="image/*"
-            onChange={handleImageChange}
+            type="text"
+            id="image-url"
+            value={imageUrl}
+            onChange={(e) => setImageUrl(e.target.value)}
+            placeholder="z.B. /images/apfel.jpg oder https://..."
             required
           />
-          {imageFile && (
+          {imageUrl && (
             <div className="image-preview">
               <img
-                src={URL.createObjectURL(imageFile)}
+                src={imageUrl}
                 alt="Preview"
+                onError={(e) => (e.currentTarget.style.display = 'none')}
               />
             </div>
           )}
@@ -193,6 +229,43 @@ const AdminPanel: React.FC = () => {
       >
         Abmelden
       </button>
+
+      <hr className="admin-divider" />
+
+      <h2>📦 Alle Produkte</h2>
+      
+      {loadingProducts ? (
+        <p>Lade Produkte...</p>
+      ) : products.length === 0 ? (
+        <p>Noch keine Produkte vorhanden.</p>
+      ) : (
+        <div className="admin-product-list">
+          {products.map((product) => (
+            <div key={product.id} className="admin-product-item">
+              {product.imageUrl && (
+                <img 
+                  src={product.imageUrl} 
+                  alt={product.name}
+                  className="admin-product-image"
+                />
+              )}
+              <div className="admin-product-info">
+                <h4>{product.name}</h4>
+                <p className="admin-product-price">{product.price.toFixed(2)} €</p>
+                <p className="admin-product-qr">
+                  <strong>QR-Code:</strong> <code>{product.qrCode}</code>
+                </p>
+              </div>
+              <button
+                onClick={() => handleDelete(product.id, product.name)}
+                className="btn-delete"
+              >
+                🗑️ Löschen
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

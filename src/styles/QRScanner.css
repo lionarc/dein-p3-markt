@@ -82,3 +82,117 @@
   color: #0c5460;
   border: 1px solid #bee5eb;
 }
+
+/* Bestätigungsdialog */
+.confirm-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.confirm-dialog {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.confirm-dialog h3 {
+  margin: 0 0 16px 0;
+  font-size: 22px;
+  color: #333;
+}
+
+.confirm-product-info {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.confirm-product-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.confirm-product-details {
+  flex: 1;
+  text-align: left;
+}
+
+.confirm-product-name {
+  margin: 0 0 4px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.confirm-product-price {
+  margin: 0;
+  font-size: 16px;
+  color: #007bff;
+  font-weight: 600;
+}
+
+.confirm-dialog > p {
+  margin: 0 0 20px 0;
+  color: #666;
+}
+
+.confirm-dialog-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.confirm-dialog-buttons .btn-primary {
+  background: #28a745;
+}
+
+.confirm-dialog-buttons .btn-primary:hover {
+  background: #218838;
+}
+
+.confirm-dialog-buttons .btn-secondary {
+  background: #6c757d;
+}
+
+@media (max-width: 400px) {
+  .confirm-product-info {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .confirm-product-details {
+    text-align: center;
+  }
+}
