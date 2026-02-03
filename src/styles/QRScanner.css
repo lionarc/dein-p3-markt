@@ -1,23 +1,32 @@
 .qr-scanner {
-  background: white;
-  border-radius: 12px;
+  background: #fff;
+  border: 4px solid #000;
   padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 8px 8px 0 #000;
   margin-bottom: 24px;
 }
 
 .qr-scanner h2 {
   margin-top: 0;
   margin-bottom: 20px;
-  color: #333;
-  font-size: 24px;
+  color: #000;
+  font-size: 28px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  background: #ffa300;
+  display: inline-block;
+  padding: 8px 16px;
+  border: 3px solid #000;
+  transform: rotate(-1deg);
 }
 
 #qr-reader {
-  border-radius: 8px;
+  border: 4px solid #000;
   overflow: hidden;
   max-width: 500px;
   margin: 0 auto;
+  background: #000;
 }
 
 .scanner-controls {
@@ -65,22 +74,22 @@
 
 .scanner-message {
   margin-top: 20px;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 16px;
   text-align: center;
-  font-weight: 500;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border: 4px solid #000;
 }
 
 .scanner-message.success {
-  background: #d4edda;
-  color: #155724;
-  border: 1px solid #c3e6cb;
+  background: #4caf50;
+  color: #fff;
 }
 
 .scanner-message.info {
-  background: #d1ecf1;
-  color: #0c5460;
-  border: 1px solid #bee5eb;
+  background: #ffa300;
+  color: #000;
 }
 
 /* Bestätigungsdialog */
@@ -90,7 +99,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -99,31 +108,34 @@
 }
 
 .confirm-dialog {
-  background: white;
-  border-radius: 16px;
+  background: #fff;
+  border: 6px solid #000;
   padding: 24px;
   max-width: 400px;
   width: 100%;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  animation: slideUp 0.3s ease;
+  box-shadow: 12px 12px 0 #ffa300;
+  animation: popIn 0.2s ease;
 }
 
-@keyframes slideUp {
+@keyframes popIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: scale(1);
   }
 }
 
 .confirm-dialog h3 {
   margin: 0 0 16px 0;
-  font-size: 22px;
-  color: #333;
+  font-size: 24px;
+  color: #000;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 .confirm-product-info {
@@ -132,15 +144,15 @@
   gap: 16px;
   margin-bottom: 16px;
   padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
+  background: #f5f5f5;
+  border: 3px solid #000;
 }
 
 .confirm-product-image {
   width: 80px;
   height: 80px;
   object-fit: cover;
-  border-radius: 8px;
+  border: 3px solid #000;
   flex-shrink: 0;
 }
 
@@ -152,20 +164,25 @@
 .confirm-product-name {
   margin: 0 0 4px 0;
   font-size: 18px;
-  font-weight: 600;
-  color: #333;
+  font-weight: 900;
+  color: #000;
+  text-transform: uppercase;
 }
 
 .confirm-product-price {
   margin: 0;
-  font-size: 16px;
-  color: #007bff;
-  font-weight: 600;
+  font-size: 20px;
+  color: #000;
+  font-weight: 900;
+  background: #ffa300;
+  display: inline-block;
+  padding: 4px 8px;
 }
 
 .confirm-dialog > p {
   margin: 0 0 20px 0;
-  color: #666;
+  color: #333;
+  font-weight: 700;
 }
 
 .confirm-dialog-buttons {
@@ -175,15 +192,11 @@
 }
 
 .confirm-dialog-buttons .btn-primary {
-  background: #28a745;
+  background: #4caf50 !important;
 }
 
 .confirm-dialog-buttons .btn-primary:hover {
-  background: #218838;
-}
-
-.confirm-dialog-buttons .btn-secondary {
-  background: #6c757d;
+  background: #43a047 !important;
 }
 
 @media (max-width: 400px) {

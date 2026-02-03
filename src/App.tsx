@@ -12,8 +12,8 @@ function App() {
     <CartProvider>
       <div className="app">
         <header className="app-header">
-          <h1>🛍️ Dein P3 Markt</h1>
-          <p className="app-subtitle">Finde und scanne QR-Codes für dein Einkaufsspiel!</p>
+          <img src="/p3Markt.svg" alt="P3 Markt" className="app-logo" />
+          <p className="app-subtitle">SCHNAPP DIR DIE BESTEN DEALS! 🔥</p>
         </header>
 
         <nav className="app-nav">
@@ -21,19 +21,19 @@ function App() {
             className={activeTab === 'scan' ? 'nav-button active' : 'nav-button'}
             onClick={() => setActiveTab('scan')}
           >
-            📷 Scanner
+            📷 SCANNER
           </button>
           <button
             className={activeTab === 'cart' ? 'nav-button active' : 'nav-button'}
             onClick={() => setActiveTab('cart')}
           >
-            🛒 Warenkorb
+            🛒 WAGEN
           </button>
           <button
             className={activeTab === 'admin' ? 'nav-button active' : 'nav-button'}
             onClick={() => setActiveTab('admin')}
           >
-            🔧 Admin
+            🔧 ADMIN
           </button>
         </nav>
 
@@ -43,9 +43,6 @@ function App() {
           {activeTab === 'admin' && <AdminPanel />}
         </main>
 
-        <footer className="app-footer">
-          <p>Ein Einkaufsspiel • Keine Anmeldung erforderlich</p>
-        </footer>
       </div>
     </CartProvider>
   );

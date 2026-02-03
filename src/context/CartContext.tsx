@@ -6,6 +6,7 @@ const CART_STORAGE_KEY = 'p3-markt-cart';
 
 interface CartContextType {
   cart: CartItem[];
+  isLoaded: boolean;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -17,6 +18,7 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 // Load cart from localStorage
 const loadCartFromStorage = (): CartItem[] => {
+  if (typeof window === 'undefined') return [];
   try {
     const stored = localStorage.getItem(CART_STORAGE_KEY);
     if (stored) {
@@ -38,12 +40,22 @@ const saveCartToStorage = (cart: CartItem[]) => {
 };
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [cart, setCart] = useState<CartItem[]>(loadCartFromStorage);
+  const [cart, setCart] = useState<CartItem[]>([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  // Save to localStorage whenever cart changes
+  // Load from localStorage on mount
   useEffect(() => {
-    saveCartToStorage(cart);
-  }, [cart]);
+    const storedCart = loadCartFromStorage();
+    setCart(storedCart);
+    setIsLoaded(true);
+  }, []);
+
+  // Save to localStorage whenever cart changes (but only after initial load)
+  useEffect(() => {
+    if (isLoaded) {
+      saveCartToStorage(cart);
+    }
+  }, [cart, isLoaded]);
 
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
@@ -89,6 +101,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     <CartContext.Provider
       value={{
         cart,
+        isLoaded,
         addToCart,
         removeFromCart,
         clearCart,

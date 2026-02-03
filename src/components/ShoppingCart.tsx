@@ -3,7 +3,20 @@ import { useCart } from '../context/CartContext';
 import '../styles/ShoppingCart.css';
 
 const ShoppingCart: React.FC = () => {
-  const { cart, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalItems } = useCart();
+  const { cart, isLoaded, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalItems } = useCart();
+
+  if (!isLoaded) {
+    return (
+      <div className="shopping-cart">
+        <div className="cart-header">
+          <h2>🛒 Warenkorb</h2>
+        </div>
+        <div className="empty-cart">
+          <p>Wird geladen...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="shopping-cart">
