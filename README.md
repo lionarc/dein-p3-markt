@@ -24,7 +24,7 @@ Ein webbasiertes Einkaufsspiel, bei dem Spieler QR-Codes finden und scannen kön
 
 ### Voraussetzungen
 
-- Node.js (v16 oder höher)
+- Node.js (v20.19.0 oder höher)
 - npm oder yarn
 - Firebase-Konto (kostenlos)
 
@@ -169,11 +169,36 @@ dein-p3-markt/
 
 ## 🔒 Sicherheit
 
-- **Admin-Zugriff**: Geschützt durch einen einfachen Admin-Schlüssel (clientseitig)
-- **Firestore Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (für Demo-Zwecke)
-- **Storage Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (für Demo-Zwecke)
+⚠️ **WICHTIG - Nur für Demo/Entwicklungszwecke**
 
-⚠️ **Hinweis**: Für Produktionsumgebungen sollten Sie Firebase Authentication mit benutzerdefinierten Claims implementieren, um das Admin-Panel richtig zu sichern.
+Diese Anwendung wurde als Demo/Prototyp entwickelt und verwendet vereinfachte Sicherheitsmaßnahmen:
+
+- **Admin-Zugriff**: Geschützt durch einen einfachen Admin-Schlüssel (clientseitig, nicht sicher für Produktion)
+- **Firestore Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (nur für Demo)
+- **Storage Rules**: Lesen ist öffentlich, Schreiben ist erlaubt (nur für Demo)
+
+⚠️ **Für Produktionsumgebungen:**
+
+1. Implementieren Sie Firebase Authentication mit benutzerdefinierten Claims für Admin-Zugriff
+2. Aktualisieren Sie Firestore Rules, um Schreibzugriff nur für authentifizierte Admins zu erlauben
+3. Aktualisieren Sie Storage Rules, um Uploads nur für authentifizierte Benutzer zu erlauben
+4. Verwenden Sie Firebase Security Rules Emulator für Tests
+5. Implementieren Sie Rate Limiting und Input Validation
+6. Überwachen Sie Firebase Usage und setzen Sie Budgetalarme
+
+**Beispiel für sichere Firestore Rules:**
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if request.auth != null && 
+                     request.auth.token.admin == true;
+    }
+  }
+}
+```
 
 ## 📝 Lizenz
 
