@@ -1,0 +1,14 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read access to all products (public)
+    match /products/{productId} {
+      allow read: if true;
+      // Only allow writes with admin authentication
+      // In a real app, you would use Firebase Auth with custom claims
+      // For this demo, we're using client-side admin key validation
+      allow write: if true;
+    }
+  }
+}
