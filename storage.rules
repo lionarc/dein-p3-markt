@@ -1,0 +1,14 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /products/{allPaths=**} {
+      // Allow anyone to read product images (public)
+      allow read: if true;
+      // Allow writes for product images
+      // In a real app, you would use Firebase Auth with custom claims
+      // For this demo, we're using client-side admin key validation
+      allow write: if true;
+    }
+  }
+}
