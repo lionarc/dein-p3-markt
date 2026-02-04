@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 import type { Product } from '../types';
 import '../styles/QRScanner.css';
 
-const QRScanner: React.FC = () => {
+const BarcodeScanner: React.FC = () => {
   const [scanning, setScanning] = useState(false);
   const [message, setMessage] = useState('');
   const [scannedProduct, setScannedProduct] = useState<Product | null>(null);
@@ -27,10 +27,10 @@ const QRScanner: React.FC = () => {
           qrbox: { width: 250, height: 250 },
         },
         async (decodedText) => {
-          setMessage('QR Code gefunden! Suche Produkt...');
+          setMessage('Barcode gefunden! Suche Produkt...');
           
           try {
-            const product = await productService.getProductByQRCode(decodedText);
+            const product = await productService.getProductByBarcode(decodedText);
             
             if (product) {
               // Stop scanning and show confirmation dialog
@@ -54,7 +54,7 @@ const QRScanner: React.FC = () => {
       );
 
       setScanning(true);
-      setMessage('Scanner aktiv. Halten Sie den QR-Code vor die Kamera.');
+      setMessage('Scanner aktiv. Halten Sie den Barcode vor die Kamera.');
     } catch (error) {
       console.error('Error starting scanner:', error);
       setMessage('Fehler beim Starten des Scanners. Bitte erlauben Sie den Kamerazugriff.');
@@ -64,11 +64,16 @@ const QRScanner: React.FC = () => {
   const stopScanning = async () => {
     if (scannerRef.current && scanning) {
       try {
-        await scannerRef.current.stop();
+        const state = scannerRef.current.getState();
+        // Only stop if scanner is actually running (state 2 = SCANNING)
+        if (state === 2) {
+          await scannerRef.current.stop();
+        }
         setScanning(false);
         setMessage('');
       } catch (error) {
         console.error('Error stopping scanner:', error);
+        setScanning(false);
       }
     }
   };
@@ -76,15 +81,22 @@ const QRScanner: React.FC = () => {
   useEffect(() => {
     return () => {
       if (scannerRef.current) {
-        scannerRef.current.stop().catch(console.error);
+        try {
+          const state = scannerRef.current.getState();
+          if (state === 2) {
+            scannerRef.current.stop().catch(console.error);
+          }
+        } catch {
+          // Scanner not initialized, ignore
+        }
       }
     };
   }, []);
 
   const handleConfirmAdd = () => {
     if (scannedProduct) {
-      addToCart(scannedProduct);
-      setMessage(`${scannedProduct.name} wurde zum Warenkorb hinzugefügt! 🎉`);
+      const result = addToCart(scannedProduct);
+      setMessage(result.message);
       setTimeout(() => setMessage(''), 3000);
     }
     setShowConfirmDialog(false);
@@ -100,7 +112,6 @@ const QRScanner: React.FC = () => {
 
   return (
     <div className="qr-scanner">
-      <h2>QR-Code Scanner</h2>
       <div ref={scannerDivRef} id="qr-reader" style={{ width: '100%' }}></div>
       
       <div className="scanner-controls">
@@ -154,4 +165,4 @@ const QRScanner: React.FC = () => {
   );
 };
 
-export default QRScanner;
+export default BarcodeScanner;

@@ -1,0 +1,19 @@
+{
+  "coupons": [
+    {
+      "id": "coupon-10",
+      "minAmount": 10,
+      "title": "🎉 50% auf ein Getränk!",
+      "description": "Du hast 10€ erreicht! Hol dir 50% Rabatt auf ein Getränk deiner Wahl.",
+      "code": "DRINK50"
+    },
+    {
+      "id": "coupon-100",
+      "minAmount": 100,
+      "title": "🏆 MEGA-BONUS!",
+      "description": "WOW! 100€ Warenwert! Du bekommst einen 10€ Gutschein für deinen nächsten Einkauf.",
+      "code": "MEGA10"
+    }
+  ],
+  "instructions": "Um einen Coupon einzulösen, zeige ihn an der Kasse vor und leere dann deinen Warenkorb."
+}

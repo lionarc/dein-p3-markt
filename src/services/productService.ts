@@ -9,17 +9,34 @@ import {
   Timestamp,
 } from 'firebase/firestore';
 import { db } from '../firebase';
-import type { Product } from '../types';
+import type { Product, ProductsConfig } from '../types';
 
 const PRODUCTS_COLLECTION = 'products';
 
+// Cache for products config
+let productsConfigCache: ProductsConfig | null = null;
+
 export const productService = {
+  // Load products config from JSON
+  async loadProductsConfig(): Promise<ProductsConfig> {
+    if (productsConfigCache) return productsConfigCache;
+    
+    try {
+      const response = await fetch('/products.json');
+      productsConfigCache = await response.json();
+      return productsConfigCache!;
+    } catch (error) {
+      console.error('Error loading products config:', error);
+      return { products: [], instructions: '' };
+    }
+  },
+
   // Add a new product
   async addProduct(
     name: string,
     description: string,
     price: number,
-    qrCode: string,
+    barcode: string,
     imageUrl: string
   ): Promise<string> {
     try {
@@ -28,7 +45,7 @@ export const productService = {
         name,
         description,
         price,
-        qrCode,
+        barcode,
         imageUrl,
         createdAt: Timestamp.now(),
       });
@@ -54,7 +71,7 @@ export const productService = {
           description: data.description,
           price: data.price,
           imageUrl: data.imageUrl,
-          qrCode: data.qrCode,
+          barcode: data.barcode,
           createdAt: data.createdAt.toDate(),
         });
       });
@@ -66,12 +83,12 @@ export const productService = {
     }
   },
 
-  // Get product by QR code
-  async getProductByQRCode(qrCode: string): Promise<Product | null> {
+  // Get product by barcode
+  async getProductByBarcode(barcode: string): Promise<Product | null> {
     try {
       const q = query(
         collection(db, PRODUCTS_COLLECTION),
-        where('qrCode', '==', qrCode)
+        where('barcode', '==', barcode)
       );
       const querySnapshot = await getDocs(q);
 
@@ -88,11 +105,11 @@ export const productService = {
         description: data.description,
         price: data.price,
         imageUrl: data.imageUrl,
-        qrCode: data.qrCode,
+        barcode: data.barcode,
         createdAt: data.createdAt.toDate(),
       };
     } catch (error) {
-      console.error('Error getting product by QR code:', error);
+      console.error('Error getting product by barcode:', error);
       throw error;
     }
   },

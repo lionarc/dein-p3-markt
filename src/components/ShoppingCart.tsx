@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import type { Coupon } from '../types';
 import '../styles/ShoppingCart.css';
 
 const ShoppingCart: React.FC = () => {
-  const { cart, isLoaded, addToCart, removeFromCart, clearCart, getTotalPrice, getTotalItems } = useCart();
+  const { cart, isLoaded, clearCart, redeemCoupons, earnedCoupons, couponConfig, getTotalPrice, getTotalItems } = useCart();
+  const [redeemedCoupons, setRedeemedCoupons] = useState<Coupon[]>([]);
+  const [showRedeemDialog, setShowRedeemDialog] = useState(false);
+
+  const handleRedeemCoupons = () => {
+    const coupons = redeemCoupons();
+    setRedeemedCoupons(coupons);
+    setShowRedeemDialog(true);
+  };
+
+  const closeRedeemDialog = () => {
+    setShowRedeemDialog(false);
+    setRedeemedCoupons([]);
+  };
 
   if (!isLoaded) {
     return (
@@ -25,6 +39,26 @@ const ShoppingCart: React.FC = () => {
         <span className="cart-badge">{getTotalItems()}</span>
       </div>
 
+      {/* Earned Coupons Display */}
+      {earnedCoupons.length > 0 && (
+        <div className="coupons-section">
+          <h3>🎁 Deine Coupons!</h3>
+          {earnedCoupons.map((coupon) => (
+            <div key={coupon.id} className="coupon-card">
+              <div className="coupon-title">{coupon.title}</div>
+              <div className="coupon-description">{coupon.description}</div>
+              <div className="coupon-code">Code: {coupon.code}</div>
+            </div>
+          ))}
+          {couponConfig && (
+            <p className="coupon-instructions">{couponConfig.instructions}</p>
+          )}
+          <button onClick={handleRedeemCoupons} className="btn-redeem">
+            🎉 Coupon einlösen
+          </button>
+        </div>
+      )}
+
       {cart.length === 0 ? (
         <div className="empty-cart">
           <p>Ihr Warenkorb ist leer.</p>
@@ -43,24 +77,6 @@ const ShoppingCart: React.FC = () => {
                 <div className="cart-item-details">
                   <h3>{item.product.name}</h3>
                   <p className="cart-item-price">€{item.product.price.toFixed(2)}</p>
-                  <div className="cart-item-controls">
-                    <button
-                      onClick={() => removeFromCart(item.product.id)}
-                      className="btn-quantity"
-                    >
-                      -
-                    </button>
-                    <span className="quantity">{item.quantity}</span>
-                    <button
-                      onClick={() => addToCart(item.product)}
-                      className="btn-quantity"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="cart-item-total">
-                  €{(item.product.price * item.quantity).toFixed(2)}
                 </div>
               </div>
             ))}
@@ -76,6 +92,31 @@ const ShoppingCart: React.FC = () => {
             </button>
           </div>
         </>
+      )}
+
+      {/* Redeem Dialog */}
+      {showRedeemDialog && (
+        <div className="confirm-dialog-overlay">
+          <div className="confirm-dialog redeem-dialog">
+            <h3>🎉 Coupons eingelöst!</h3>
+            {redeemedCoupons.length > 0 ? (
+              <>
+                <p>Zeige diese Codes an der Kasse:</p>
+                {redeemedCoupons.map((coupon) => (
+                  <div key={coupon.id} className="redeemed-coupon">
+                    <div className="coupon-title">{coupon.title}</div>
+                    <div className="coupon-code-large">{coupon.code}</div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <p>Keine Coupons zum Einlösen vorhanden.</p>
+            )}
+            <button onClick={closeRedeemDialog} className="btn-primary">
+              OK, verstanden!
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

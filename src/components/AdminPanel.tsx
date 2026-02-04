@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { productService } from '../services/productService';
-import type { Product } from '../types';
+import { useCart } from '../context/CartContext';
+import type { Product, ProductTemplate } from '../types';
 import '../styles/AdminPanel.css';
 
 const AdminPanel: React.FC = () => {
@@ -11,13 +12,16 @@ const AdminPanel: React.FC = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [qrCode, setQrCode] = useState('');
+  const [barcode, setBarcode] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
   const [products, setProducts] = useState<Product[]>([]);
+  const [productTemplates, setProductTemplates] = useState<ProductTemplate[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
+
+  const { resetEverything } = useCart();
 
   const correctAdminKey = import.meta.env.VITE_ADMIN_KEY || 'admin123';
 
@@ -33,9 +37,19 @@ const AdminPanel: React.FC = () => {
     }
   };
 
+  const loadProductTemplates = async () => {
+    try {
+      const config = await productService.loadProductsConfig();
+      setProductTemplates(config.products);
+    } catch (error) {
+      console.error('Error loading product templates:', error);
+    }
+  };
+
   useEffect(() => {
     if (isAuthenticated) {
       loadProducts();
+      loadProductTemplates();
     }
   }, [isAuthenticated]);
 
@@ -66,12 +80,18 @@ const AdminPanel: React.FC = () => {
     }
   };
 
-
+  const handleSelectTemplate = (template: ProductTemplate) => {
+    setName(template.name);
+    setDescription(template.description);
+    setPrice(template.price.toString());
+    setBarcode(template.barcode);
+    setImageUrl(`/images/${template.image}`);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!name || !description || !price || !qrCode || !imageUrl) {
+    if (!name || !description || !price || !barcode || !imageUrl) {
       setMessage('Bitte füllen Sie alle Felder aus.');
       return;
     }
@@ -84,7 +104,7 @@ const AdminPanel: React.FC = () => {
         name,
         description,
         parseFloat(price),
-        qrCode,
+        barcode,
         imageUrl
       );
 
@@ -94,7 +114,7 @@ const AdminPanel: React.FC = () => {
       setName('');
       setDescription('');
       setPrice('');
-      setQrCode('');
+      setBarcode('');
       setImageUrl('');
 
       // Reload products list
@@ -139,6 +159,24 @@ const AdminPanel: React.FC = () => {
   return (
     <div className="admin-panel">
       <h2>➕ Neues Produkt hinzufügen</h2>
+
+      {/* Product Templates from JSON */}
+      {productTemplates.length > 0 && (
+        <div className="template-section">
+          <h3>📋 Vorlagen aus products.json</h3>
+          <div className="template-list">
+            {productTemplates.map((template) => (
+              <button
+                key={template.barcode}
+                className="template-btn"
+                onClick={() => handleSelectTemplate(template)}
+              >
+                {template.name} ({template.price.toFixed(2)}€)
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
       
       <form onSubmit={handleSubmit} className="product-form">
         <div className="form-group">
@@ -180,13 +218,13 @@ const AdminPanel: React.FC = () => {
         </div>
 
         <div className="form-group">
-          <label htmlFor="qr-code">QR-Code Text:</label>
+          <label htmlFor="barcode">Barcode:</label>
           <input
             type="text"
-            id="qr-code"
-            value={qrCode}
-            onChange={(e) => setQrCode(e.target.value)}
-            placeholder="z.B. PROD-001"
+            id="barcode"
+            value={barcode}
+            onChange={(e) => setBarcode(e.target.value)}
+            placeholder="z.B. 4001234567890"
             required
           />
         </div>
@@ -198,7 +236,7 @@ const AdminPanel: React.FC = () => {
             id="image-url"
             value={imageUrl}
             onChange={(e) => setImageUrl(e.target.value)}
-            placeholder="z.B. /images/apfel.jpg oder https://..."
+            placeholder="z.B. /images/apfel.jpg"
             required
           />
           {imageUrl && (
@@ -252,8 +290,8 @@ const AdminPanel: React.FC = () => {
               <div className="admin-product-info">
                 <h4>{product.name}</h4>
                 <p className="admin-product-price">{product.price.toFixed(2)} €</p>
-                <p className="admin-product-qr">
-                  <strong>QR-Code:</strong> <code>{product.qrCode}</code>
+                <p className="admin-product-barcode">
+                  <strong>Barcode:</strong> <code>{product.barcode}</code>
                 </p>
               </div>
               <button
@@ -266,6 +304,22 @@ const AdminPanel: React.FC = () => {
           ))}
         </div>
       )}
+
+      <hr className="admin-divider" />
+
+      <h2>🔧 Test-Funktionen</h2>
+      <button
+        onClick={() => {
+          if (confirm('ACHTUNG: Dies setzt ALLE Benutzerdaten zurück (Warenkorb, Coupons, etc.). Fortfahren?')) {
+            resetEverything();
+            setMessage('✅ Alle Benutzerdaten wurden zurückgesetzt!');
+            setTimeout(() => setMessage(''), 3000);
+          }
+        }}
+        className="btn-reset"
+      >
+        🔄 Alles zurücksetzen (Test-Reset)
+      </button>
     </div>
   );
 };

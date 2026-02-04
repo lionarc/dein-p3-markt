@@ -1,0 +1,26 @@
+{
+  "products": [
+    {
+      "barcode": "4001234567890",
+      "name": "Handcreme",
+      "description": "Pflegende Handcreme für trockene Haut",
+      "price": 3.99,
+      "image": "creme.jpeg"
+    },
+    {
+      "barcode": "4001234567891",
+      "name": "Tasse",
+      "description": "Schöne Keramiktasse für Kaffee oder Tee",
+      "price": 5.99,
+      "image": "tasse.jpeg"
+    },
+    {
+      "barcode": "4001234567892",
+      "name": "Beistelltisch",
+      "description": "Praktischer kleiner Tisch",
+      "price": 19.99,
+      "image": "tisch.jpeg"
+    }
+  ],
+  "instructions": "Füge neue Produkte hinzu: 1) Bild in public/images legen, 2) Eintrag hier hinzufügen mit barcode, name, description, price und image (nur Dateiname)"
+}
