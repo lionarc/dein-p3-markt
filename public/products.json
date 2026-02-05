@@ -1,25 +1,270 @@
 {
   "products": [
     {
-      "barcode": "4001234567890",
-      "name": "Handcreme",
-      "description": "Pflegende Handcreme für trockene Haut",
-      "price": 3.99,
-      "image": "creme.jpeg"
+      "barcode": "P3-001",
+      "name": "Arbeitsplatte",
+      "description": "Robuste Arbeitsplatte für Küche oder Werkstatt",
+      "price": 69.99,
+      "image": "arbeitsplatte.jpeg"
     },
     {
-      "barcode": "4001234567891",
-      "name": "Tasse",
-      "description": "Schöne Keramiktasse für Kaffee oder Tee",
-      "price": 5.99,
-      "image": "tasse.jpeg"
+      "barcode": "P3-002",
+      "name": "Blähton",
+      "description": "Blähton für Drainage und Pflanzgefäße",
+      "price": 8.99,
+      "image": "blaehton.jpeg"
     },
     {
-      "barcode": "4001234567892",
-      "name": "Beistelltisch",
-      "description": "Praktischer kleiner Tisch",
+      "barcode": "P3-003",
+      "name": "Blumenteppich",
+      "description": " 100g Saatmischung für blühenden Blumenteppich im Garten",
+      "price": 29.99,
+      "image": "blumenteppich.jpeg"
+    },
+    {
+      "barcode": "P3-004",
+      "name": "Makita Akku Schlagbohrer",
+      "description": "Leistungsstarker Akku-Schlagbohrer von Makita für vielseitige Bohr- und Schraubarbeiten",
+      "price": 149.99,
+      "image": "bohrer.jpeg"
+    },
+    {
+      "barcode": "P3-005",
+      "name": "Brennholz",
+      "description": "Trockenes Brennholz für Kamin und Feuerstelle",
       "price": 19.99,
-      "image": "tisch.jpeg"
+      "image": "brennholz.jpeg"
+    },
+    {
+      "barcode": "P3-006",
+      "name": "Brennpaste",
+      "description": "Brennpaste für Fondue und Warmhaltebehälter",
+      "price": 4.99,
+      "image": "brennpaste.jpeg"
+    },
+    {
+      "barcode": "P3-007",
+      "name": "Deko Holzfolie",
+      "description": "Selbstklebende Deko-Folie mit Holzoptik für Möbel und Wände",
+      "price": 14.99,
+      "image": "deko.jpeg"
+    },
+    {
+      "barcode": "P3-008",
+      "name": "Duschkabine",
+      "description": "Moderne Duschkabine mit Glaswänden und Aluminiumprofilen",
+      "price": 499.99,
+      "image": "dusche.jpeg"
+    },
+    {
+      "barcode": "P3-009",
+      "name": "Feuerzeug",
+      "description": "Zuverlässiges Feuerzeug",
+      "price": 2.99,
+      "image": "feuerzeug.jpeg"
+    },
+    {
+      "barcode": "P3-010",
+      "name": "Gehörschutz",
+      "description": "Professioneller Gehörschutz für laute Arbeiten",
+      "price": 59.99,
+      "image": "gehörschutz.jpg"
+    },
+    {
+      "barcode": "P3-011",
+      "name": "Hammerite Lack",
+      "description": "Rostschutzlack für Metall",
+      "price": 18.99,
+      "image": "hammerite.jpeg"
+    },
+    {
+      "barcode": "P3-012",
+      "name": "Arbeitshandschuhe",
+      "description": "Robuste Handschuhe für Gartenarbeit und Handwerk",
+      "price": 7.99,
+      "image": "handschuhe.jpeg"
+    },
+    {
+      "barcode": "P3-013",
+      "name": "Holzbalken",
+      "description": "Massiver Holzbalken für Bauprojekte",
+      "price": 34.99,
+      "image": "holzbalken.jpeg"
+    },
+    {
+      "barcode": "P3-014",
+      "name": "Holzdübel",
+      "description": "Packung Holzdübel in verschiedenen Größen",
+      "price": 5.99,
+      "image": "holzdübel.jpeg"
+    },
+    {
+      "barcode": "P3-015",
+      "name": "Hundespielzeug Werkzeug",
+      "description": "Lustiges Hundespielzeug in Form von Werkzeugen",
+      "price": 12.99,
+      "image": "hund.jpeg"
+    },
+    {
+      "barcode": "P3-016",
+      "name": "Hundespielzeug Holz",
+      "description": "Natürliches Kauspielzeug aus Kaffeeholz",
+      "price": 14.99,
+      "image": "hundeholz.jpeg"
+    },
+    {
+      "barcode": "P3-017",
+      "name": "Kinderteppich",
+      "description": "Bunter Teppich fürs Kinderzimmer",
+      "price": 34.99,
+      "image": "kinderteppich.jpeg"
+    },
+    {
+      "barcode": "P3-018",
+      "name": "Klobürste",
+      "description": "Hygienische Klobürste mit Halter",
+      "price": 9.99,
+      "image": "klobuerste.jpeg"
+    },
+    {
+      "barcode": "P3-019",
+      "name": "WC-Schüssel",
+      "description": "Moderne Toilettenschüssel",
+      "price": 89.99,
+      "image": "kloschuessel.jpeg"
+    },
+    {
+      "barcode": "P3-020",
+      "name": "Kühlschrankkombi",
+      "description": "Energieeffiziente Kühl-Gefrier-Kombination",
+      "price": 849.99,
+      "image": "kühlschrankkombi.jpeg"
+    },
+    {
+      "barcode": "P3-021",
+      "name": "Leiter",
+      "description": "Stabile Leiter für Haus und Garten",
+      "price": 59.99,
+      "image": "leite.jpeg"
+    },
+    {
+      "barcode": "P3-022",
+      "name": "LED-Licht",
+      "description": "Energiesparende LED-Beleuchtung",
+      "price": 12.99,
+      "image": "licht.jpeg"
+    },
+    {
+      "barcode": "P3-023",
+      "name": "M6 Muttern",
+      "description": "Packung M6 Muttern verzinkt, rostfrei",
+      "price": 3.99,
+      "image": "m6muttern.jpg"
+    },
+    {
+      "barcode": "P3-024",
+      "name": "Atemschutzmaske",
+      "description": "Schutzmaske für Staub und Farbarbeiten",
+      "price": 6.99,
+      "image": "maske.jpeg"
+    },
+    {
+      "barcode": "P3-025",
+      "name": "Metalldübel",
+      "description": "Dübel für Gipswände, aus Metall",
+      "price": 7.99,
+      "image": "metallduebel.jpeg"
+    },
+    {
+      "barcode": "P3-026",
+      "name": "Monstera Pflanze",
+      "description": "Trendige Zimmerpflanze Monstera",
+      "price": 24.99,
+      "image": "monstera.jpeg"
+    },
+    {
+      "barcode": "P3-027",
+      "name": "Muttern-Set",
+      "description": "Sortiment verschiedener Muttern",
+      "price": 8.99,
+      "image": "muttern.jpg"
+    },
+    {
+      "barcode": "P3-028",
+      "name": "Olivenbaum",
+      "description": "Riesiger mediterraner Olivenbaum im Topf",
+      "price": 9999.99,
+      "image": "olive.jpeg"
+    },
+    {
+      "barcode": "P3-029",
+      "name": "Plastikdübel",
+      "description": "Universal-Plastikdübel für Wand",
+      "price": 4.99,
+      "image": "plastikduebel.jpeg"
+    },
+    {
+      "barcode": "P3-030",
+      "name": "Rollfuß",
+      "description": "Stoppbarer Rollfuß für Möbel und Geräte",
+      "price": 11.99,
+      "image": "rollfuss.jpeg"
+    },
+    {
+      "barcode": "P3-031",
+      "name": "Schaumstoff",
+      "description": "Polsterschaumstoff für DIY-Projekte",
+      "price": 14.99,
+      "image": "schaumstoff.jpeg"
+    },
+    {
+      "barcode": "P3-032",
+      "name": "Akku Schneefräse",
+      "description": "Robuster Schneeschieber für den Winter",
+      "price": 159.99,
+      "image": "schnee.jpeg"
+    },
+    {
+      "barcode": "P3-033",
+      "name": "Schrauben-Set",
+      "description": "Sortiment verschiedener Schrauben",
+      "price": 9.99,
+      "image": "schrauben.jpg"
+    },
+    {
+      "barcode": "P3-034",
+      "name": "Split",
+      "description": "Sack Split für den Winter",
+      "price": 29.99,
+      "image": "split.jpeg"
+    },
+    {
+      "barcode": "P3-035",
+      "name": "Steckdose",
+      "description": "Unterputz-Steckdose mit Rahmen",
+      "price": 8.99,
+      "image": "steckdose.jpeg"
+    },
+    {
+      "barcode": "P3-036",
+      "name": "Treteimer",
+      "description": "Praktischer Treteimer fürs Bad",
+      "price": 24.99,
+      "image": "treteimer.jpeg"
+    },
+    {
+      "barcode": "P3-037",
+      "name": "Meister Polarweiß Plus",
+      "description": "Wandfarbe weiß, 12 Liter",
+      "price": 59.99,
+      "image": "weiss.jpeg"
+    },
+    {
+      "barcode": "P3-038",
+      "name": "Nummer 3",
+      "description": "WunderschöneHausnummer 3 aus Metall",
+      "price": 6.99,
+      "image": "3.jpeg"
     }
   ],
   "instructions": "Füge neue Produkte hinzu: 1) Bild in public/images legen, 2) Eintrag hier hinzufügen mit barcode, name, description, price und image (nur Dateiname)"

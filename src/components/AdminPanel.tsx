@@ -21,6 +21,13 @@ const AdminPanel: React.FC = () => {
   const [productTemplates, setProductTemplates] = useState<ProductTemplate[]>([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
 
+  // Confirmation dialog state
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const [showResetDialog, setShowResetDialog] = useState(false);
+  const [showBulkCreateDialog, setShowBulkCreateDialog] = useState(false);
+  const [bulkCreating, setBulkCreating] = useState(false);
+
   const { resetEverything } = useCart();
 
   const correctAdminKey = import.meta.env.VITE_ADMIN_KEY || 'admin123';
@@ -64,19 +71,77 @@ const AdminPanel: React.FC = () => {
   };
 
   const handleDelete = async (productId: string, productName: string) => {
-    if (!confirm(`Möchtest du "${productName}" wirklich löschen?`)) {
-      return;
-    }
+    setDeleteTarget({ id: productId, name: productName });
+    setShowDeleteDialog(true);
+  };
 
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    
     try {
-      await productService.deleteProduct(productId);
-      setMessage(`✅ "${productName}" wurde gelöscht.`);
+      await productService.deleteProduct(deleteTarget.id);
+      setMessage(`✅ "${deleteTarget.name}" wurde gelöscht.`);
       await loadProducts();
       setTimeout(() => setMessage(''), 3000);
     } catch (error) {
       console.error('Error deleting product:', error);
       setMessage('❌ Fehler beim Löschen des Produkts.');
       setTimeout(() => setMessage(''), 3000);
+    } finally {
+      setShowDeleteDialog(false);
+      setDeleteTarget(null);
+    }
+  };
+
+  const confirmReset = () => {
+    resetEverything();
+    setMessage('✅ Alle Benutzerdaten wurden zurückgesetzt!');
+    setTimeout(() => setMessage(''), 3000);
+    setShowResetDialog(false);
+  };
+
+  const handleBulkCreate = async () => {
+    setBulkCreating(true);
+    setShowBulkCreateDialog(false);
+    
+    try {
+      // Hole existierende Barcodes
+      const existingBarcodes = new Set(products.map(p => p.barcode));
+      
+      // Filtere Templates, die noch nicht existieren
+      const newTemplates = productTemplates.filter(
+        template => !existingBarcodes.has(template.barcode)
+      );
+      
+      if (newTemplates.length === 0) {
+        setMessage('ℹ️ Alle Produkte aus den Vorlagen existieren bereits!');
+        setTimeout(() => setMessage(''), 3000);
+        setBulkCreating(false);
+        return;
+      }
+      
+      // Erstelle alle neuen Produkte
+      let created = 0;
+      for (const template of newTemplates) {
+        await productService.addProduct(
+          template.name,
+          template.description,
+          template.price,
+          template.barcode,
+          `/images/${template.image}`
+        );
+        created++;
+      }
+      
+      setMessage(`✅ ${created} neue Produkte erstellt! (${productTemplates.length - newTemplates.length} existierten bereits)`);
+      await loadProducts();
+      setTimeout(() => setMessage(''), 5000);
+    } catch (error) {
+      console.error('Error bulk creating products:', error);
+      setMessage('❌ Fehler beim Erstellen der Produkte.');
+      setTimeout(() => setMessage(''), 3000);
+    } finally {
+      setBulkCreating(false);
     }
   };
 
@@ -175,6 +240,14 @@ const AdminPanel: React.FC = () => {
               </button>
             ))}
           </div>
+          <button
+            type="button"
+            className="btn-bulk-create"
+            onClick={() => setShowBulkCreateDialog(true)}
+            disabled={bulkCreating}
+          >
+            {bulkCreating ? '⏳ Wird erstellt...' : '🚀 Alle Vorlagen erstellen'}
+          </button>
         </div>
       )}
       
@@ -309,17 +382,68 @@ const AdminPanel: React.FC = () => {
 
       <h2>🔧 Test-Funktionen</h2>
       <button
-        onClick={() => {
-          if (confirm('ACHTUNG: Dies setzt ALLE Benutzerdaten zurück (Warenkorb, Coupons, etc.). Fortfahren?')) {
-            resetEverything();
-            setMessage('✅ Alle Benutzerdaten wurden zurückgesetzt!');
-            setTimeout(() => setMessage(''), 3000);
-          }
-        }}
+        onClick={() => setShowResetDialog(true)}
         className="btn-reset"
       >
         🔄 Alles zurücksetzen (Test-Reset)
       </button>
+
+      {/* Delete Confirmation Dialog */}
+      {showDeleteDialog && deleteTarget && (
+        <div className="dialog-overlay">
+          <div className="dialog-box">
+            <h3>🗑️ Produkt löschen?</h3>
+            <p>Möchtest du "{deleteTarget.name}" wirklich löschen?</p>
+            <div className="dialog-buttons">
+              <button onClick={() => { setShowDeleteDialog(false); setDeleteTarget(null); }} className="btn-cancel">
+                Abbrechen
+              </button>
+              <button onClick={confirmDelete} className="btn-confirm-delete">
+                Ja, löschen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reset Confirmation Dialog */}
+      {showResetDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-box">
+            <h3>⚠️ Alles zurücksetzen?</h3>
+            <p>ACHTUNG: Dies setzt ALLE Benutzerdaten zurück (Warenkorb, Coupons, etc.).</p>
+            <div className="dialog-buttons">
+              <button onClick={() => setShowResetDialog(false)} className="btn-cancel">
+                Abbrechen
+              </button>
+              <button onClick={confirmReset} className="btn-confirm-delete">
+                Ja, zurücksetzen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Create Confirmation Dialog */}
+      {showBulkCreateDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-box">
+            <h3>🚀 Alle Vorlagen erstellen?</h3>
+            <p>
+              Es werden {productTemplates.length} Vorlagen überprüft. 
+              Bereits existierende Produkte (gleicher Barcode) werden übersprungen.
+            </p>
+            <div className="dialog-buttons">
+              <button onClick={() => setShowBulkCreateDialog(false)} className="btn-cancel">
+                Abbrechen
+              </button>
+              <button onClick={handleBulkCreate} className="btn-confirm-create">
+                Ja, erstellen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
