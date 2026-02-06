@@ -249,6 +249,33 @@
   cursor: not-allowed;
 }
 
+.btn-delete-all {
+  width: 100%;
+  margin-bottom: 20px;
+  padding: 14px;
+  background: #d32f2f;
+  color: #fff;
+  border: 3px solid #000;
+  font-size: 14px;
+  font-weight: 900;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 4px 4px 0 #000;
+  transition: all 0.1s;
+}
+
+.btn-delete-all:hover:not(:disabled) {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 #000;
+  background: #b71c1c;
+}
+
+.btn-delete-all:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .btn-delete {
   background: #ff4444;
   color: #fff;

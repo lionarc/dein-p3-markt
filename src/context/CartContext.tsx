@@ -171,10 +171,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     const newRedeemedIds = [...redeemedCouponIds, ...couponsToRedeem.map(c => c.id)];
     setRedeemedCouponIds(newRedeemedIds);
     saveRedeemedCouponsToStorage(newRedeemedIds);
-    // Reset cart and max total for next round
-    setCart([]);
-    setMaxTotalReached(0);
-    saveMaxTotalToStorage(0);
+    // Keep cart and max total - user can continue collecting!
     return couponsToRedeem;
   };
 

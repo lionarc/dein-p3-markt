@@ -10,9 +10,16 @@ const BarcodeScanner: React.FC = () => {
   const [message, setMessage] = useState('');
   const [scannedProduct, setScannedProduct] = useState<Product | null>(null);
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
-  const { addToCart } = useCart();
+  const [showAlreadyInCartDialog, setShowAlreadyInCartDialog] = useState(false);
+  const { addToCart, cart } = useCart();
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const scannerDivRef = useRef<HTMLDivElement>(null);
+  
+  // Use ref to access current cart state in async callback
+  const cartRef = useRef(cart);
+  useEffect(() => {
+    cartRef.current = cart;
+  }, [cart]);
 
   const startScanning = async () => {
     try {
@@ -33,11 +40,19 @@ const BarcodeScanner: React.FC = () => {
             const product = await productService.getProductByBarcode(decodedText);
             
             if (product) {
-              // Stop scanning and show confirmation dialog
+              // Stop scanning
               await stopScanning();
               setScannedProduct(product);
-              setShowConfirmDialog(true);
-              setMessage('');
+              
+              // Check if product is already in cart using ref for current state
+              const isInCart = cartRef.current.some(item => item.product.id === product.id);
+              if (isInCart) {
+                setShowAlreadyInCartDialog(true);
+                setMessage('');
+              } else {
+                setShowConfirmDialog(true);
+                setMessage('');
+              }
             } else {
               setMessage('Produkt nicht gefunden. Bitte versuchen Sie es erneut.');
               setTimeout(() => setMessage(''), 3000);
@@ -110,6 +125,11 @@ const BarcodeScanner: React.FC = () => {
     setTimeout(() => setMessage(''), 3000);
   };
 
+  const handleCloseAlreadyInCartDialog = () => {
+    setShowAlreadyInCartDialog(false);
+    setScannedProduct(null);
+  };
+
   return (
     <div className="qr-scanner">
       <div ref={scannerDivRef} id="qr-reader" style={{ width: '100%' }}></div>
@@ -156,6 +176,34 @@ const BarcodeScanner: React.FC = () => {
               </button>
               <button onClick={handleCancelAdd} className="btn-secondary">
                 ❌ Nein, abbrechen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Already in Cart Warning Dialog */}
+      {showAlreadyInCartDialog && scannedProduct && (
+        <div className="confirm-dialog-overlay">
+          <div className="confirm-dialog already-in-cart-dialog">
+            <h3>⚠️ Bereits im Warenkorb!</h3>
+            <div className="confirm-product-info">
+              {scannedProduct.imageUrl && (
+                <img 
+                  src={scannedProduct.imageUrl} 
+                  alt={scannedProduct.name}
+                  className="confirm-product-image"
+                />
+              )}
+              <div className="confirm-product-details">
+                <p className="confirm-product-name">{scannedProduct.name}</p>
+                <p className="confirm-product-price">{scannedProduct.price.toFixed(2)} €</p>
+              </div>
+            </div>
+            <p className="warning-text">Dieses Produkt ist bereits in deinem Warenkorb und kann nicht erneut hinzugefügt werden.</p>
+            <div className="confirm-dialog-buttons">
+              <button onClick={handleCloseAlreadyInCartDialog} className="btn-primary">
+                OK, verstanden!
               </button>
             </div>
           </div>

@@ -123,4 +123,22 @@ export const productService = {
       throw error;
     }
   },
+
+  // Delete all products
+  async deleteAllProducts(): Promise<number> {
+    try {
+      const querySnapshot = await getDocs(collection(db, PRODUCTS_COLLECTION));
+      let deletedCount = 0;
+      
+      for (const docSnapshot of querySnapshot.docs) {
+        await deleteDoc(doc(db, PRODUCTS_COLLECTION, docSnapshot.id));
+        deletedCount++;
+      }
+      
+      return deletedCount;
+    } catch (error) {
+      console.error('Error deleting all products:', error);
+      throw error;
+    }
+  },
 };

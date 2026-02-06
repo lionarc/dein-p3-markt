@@ -9,6 +9,7 @@ const ShoppingCart: React.FC = () => {
   const [showRedeemDialog, setShowRedeemDialog] = useState(false);
 
   const handleRedeemCoupons = () => {
+    // Directly redeem without warning (coupons are collected and can be redeemed together)
     const coupons = redeemCoupons();
     setRedeemedCoupons(coupons);
     setShowRedeemDialog(true);

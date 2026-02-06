@@ -27,6 +27,8 @@ const AdminPanel: React.FC = () => {
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showBulkCreateDialog, setShowBulkCreateDialog] = useState(false);
   const [bulkCreating, setBulkCreating] = useState(false);
+  const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false);
+  const [deletingAll, setDeletingAll] = useState(false);
 
   const { resetEverything } = useCart();
 
@@ -98,6 +100,24 @@ const AdminPanel: React.FC = () => {
     setMessage('✅ Alle Benutzerdaten wurden zurückgesetzt!');
     setTimeout(() => setMessage(''), 3000);
     setShowResetDialog(false);
+  };
+
+  const handleDeleteAllProducts = async () => {
+    setDeletingAll(true);
+    setShowDeleteAllDialog(false);
+    
+    try {
+      const deletedCount = await productService.deleteAllProducts();
+      setMessage(`✅ ${deletedCount} Produkte wurden gelöscht!`);
+      await loadProducts();
+      setTimeout(() => setMessage(''), 5000);
+    } catch (error) {
+      console.error('Error deleting all products:', error);
+      setMessage('❌ Fehler beim Löschen der Produkte.');
+      setTimeout(() => setMessage(''), 3000);
+    } finally {
+      setDeletingAll(false);
+    }
   };
 
   const handleBulkCreate = async () => {
@@ -350,32 +370,41 @@ const AdminPanel: React.FC = () => {
       ) : products.length === 0 ? (
         <p>Noch keine Produkte vorhanden.</p>
       ) : (
-        <div className="admin-product-list">
-          {products.map((product) => (
-            <div key={product.id} className="admin-product-item">
-              {product.imageUrl && (
-                <img 
-                  src={product.imageUrl} 
-                  alt={product.name}
-                  className="admin-product-image"
-                />
-              )}
-              <div className="admin-product-info">
-                <h4>{product.name}</h4>
-                <p className="admin-product-price">{product.price.toFixed(2)} €</p>
-                <p className="admin-product-barcode">
-                  <strong>Barcode:</strong> <code>{product.barcode}</code>
-                </p>
+        <>
+          <button
+            onClick={() => setShowDeleteAllDialog(true)}
+            className="btn-delete-all"
+            disabled={deletingAll}
+          >
+            {deletingAll ? '⏳ Wird gelöscht...' : `🗑️ Alle ${products.length} Produkte löschen`}
+          </button>
+          <div className="admin-product-list">
+            {products.map((product) => (
+              <div key={product.id} className="admin-product-item">
+                {product.imageUrl && (
+                  <img 
+                    src={product.imageUrl} 
+                    alt={product.name}
+                    className="admin-product-image"
+                  />
+                )}
+                <div className="admin-product-info">
+                  <h4>{product.name}</h4>
+                  <p className="admin-product-price">{product.price.toFixed(2)} €</p>
+                  <p className="admin-product-barcode">
+                    <strong>Barcode:</strong> <code>{product.barcode}</code>
+                  </p>
+                </div>
+                <button
+                  onClick={() => handleDelete(product.id, product.name)}
+                  className="btn-delete"
+                >
+                  🗑️ Löschen
+                </button>
               </div>
-              <button
-                onClick={() => handleDelete(product.id, product.name)}
-                className="btn-delete"
-              >
-                🗑️ Löschen
-              </button>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </>
       )}
 
       <hr className="admin-divider" />
@@ -439,6 +468,27 @@ const AdminPanel: React.FC = () => {
               </button>
               <button onClick={handleBulkCreate} className="btn-confirm-create">
                 Ja, erstellen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete All Products Confirmation Dialog */}
+      {showDeleteAllDialog && (
+        <div className="dialog-overlay">
+          <div className="dialog-box">
+            <h3>🗑️ Alle Produkte löschen?</h3>
+            <p>
+              <strong>ACHTUNG:</strong> Dies löscht alle {products.length} Produkte aus der Datenbank!
+              Diese Aktion kann nicht rückgängig gemacht werden.
+            </p>
+            <div className="dialog-buttons">
+              <button onClick={() => setShowDeleteAllDialog(false)} className="btn-cancel">
+                Abbrechen
+              </button>
+              <button onClick={handleDeleteAllProducts} className="btn-confirm-delete">
+                Ja, alle löschen
               </button>
             </div>
           </div>
