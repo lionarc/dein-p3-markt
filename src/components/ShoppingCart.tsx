@@ -77,6 +77,7 @@ const ShoppingCart: React.FC = () => {
                 />
                 <div className="cart-item-details">
                   <h3>{item.product.name}</h3>
+                  <p className="cart-item-description">{item.product.description}</p>
                   <p className="cart-item-price">€{item.product.price.toFixed(2)}</p>
                 </div>
               </div>

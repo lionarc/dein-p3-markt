@@ -3,16 +3,58 @@
     {
       "id": "coupon-10",
       "minAmount": 10,
-      "title": "🎉 50% auf ein Getränk!",
-      "description": "Du hast 10€ erreicht! Hol dir 50% Rabatt auf ein Getränk deiner Wahl.",
+      "title": "🥤 50% auf ein Getränk!",
+      "description": "10€ erreicht! Hol dir 50% Rabatt auf ein Getränk deiner Wahl.",
       "code": "DRINK50"
+    },
+    {
+      "id": "coupon-25",
+      "minAmount": 25,
+      "title": "🧃 Gratis Softdrink!",
+      "description": "25€ erreicht! Ein Softdrink geht aufs Haus.",
+      "code": "FREESOFT"
+    },
+    {
+      "id": "coupon-50",
+      "minAmount": 50,
+      "title": "🥃 Gratis Shot!",
+      "description": "50€ erreicht! Hol dir einen Shot an der Bar.",
+      "code": "SHOT1"
+    },
+    {
+      "id": "coupon-75",
+      "minAmount": 75,
+      "title": "🥃🥃 Doppelter Shot!",
+      "description": "75€! Zwei Shots für dich – Prost!",
+      "code": "SHOT2"
     },
     {
       "id": "coupon-100",
       "minAmount": 100,
-      "title": "🏆 MEGA-BONUS!",
-      "description": "WOW! 100€ Warenwert! Du bekommst einen 10€ Gutschein für deinen nächsten Einkauf.",
-      "code": "MEGA10"
+      "title": "🍹 Gratis Cocktail!",
+      "description": "100€ Warenwert! Ein Cocktail deiner Wahl wartet auf dich.",
+      "code": "COCKTAIL"
+    },
+    {
+      "id": "coupon-150",
+      "minAmount": 150,
+      "title": "🍺 Freigetränk an der Bar!",
+      "description": "150€! Du hast dir ein Freigetränk verdient – frag an der Bar!",
+      "code": "BARFREE"
+    },
+    {
+      "id": "coupon-250",
+      "minAmount": 250,
+      "title": "🏆 VIP-Getränk!",
+      "description": "250€ – Respekt! Ein Premium-Getränk nach Wahl des Barkeepers.",
+      "code": "VIPDRINK"
+    },
+    {
+      "id": "coupon-500",
+      "minAmount": 500,
+      "title": "🎁 ÜBERRASCHUNG!",
+      "description": "WOW! 500€! Du hast die teuersten Schätze gefunden! Frag an der Bar nach deiner Überraschung!",
+      "code": "SURPRISE"
     }
   ],
   "instructions": "Um einen Coupon einzulösen, zeige ihn an der Kasse vor und leere dann deinen Warenkorb."

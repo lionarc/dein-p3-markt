@@ -53,7 +53,7 @@
       "barcode": "P3-008",
       "name": "Duschkabine",
       "description": "Moderne Duschkabine mit Glaswänden und Aluminiumprofilen",
-      "price": 499.99,
+      "price": 299.99,
       "image": "dusche.jpeg"
     },
     {
@@ -137,7 +137,7 @@
       "barcode": "P3-020",
       "name": "Kühlschrankkombi",
       "description": "Energieeffiziente Kühl-Gefrier-Kombination",
-      "price": 849.99,
+      "price": 349.99,
       "image": "kühlschrankkombi.jpeg"
     },
     {
@@ -193,7 +193,7 @@
       "barcode": "P3-028",
       "name": "Olivenbaum",
       "description": "Riesiger mediterraner Olivenbaum im Topf",
-      "price": 9999.99,
+      "price": 99.99,
       "image": "olive.jpeg"
     },
     {
@@ -262,9 +262,170 @@
     {
       "barcode": "P3-038",
       "name": "Nummer 3",
-      "description": "WunderschöneHausnummer 3 aus Metall",
+      "description": "Wunderschöne Hausnummer 3 aus Metall",
       "price": 6.99,
       "image": "3.jpeg"
+    },
+    {
+      "barcode": "P3-039",
+      "name": "Abwasserrohr",
+      "description": "HT-Abwasserrohr für Sanitärinstallationen",
+      "price": 12.99,
+      "image": "abwasserrohr.jpeg"
+    },
+    {
+      "barcode": "P3-040",
+      "name": "Bauzement 5kg",
+      "description": "Universeller Bauzement für Mauerarbeiten und Reparaturen, 5kg Sack",
+      "price": 7.99,
+      "image": "bauzement-5kg.jpeg"
+    },
+    {
+      "barcode": "P3-041",
+      "name": "Spülbecken",
+      "description": "Günstiges Edelstahl-Spülbecken für Küche oder Werkstatt",
+      "price": 39.99,
+      "image": "billiges-spuelbecken.jpeg"
+    },
+    {
+      "barcode": "P3-042",
+      "name": "Blechschild Musik",
+      "description": "Dekoratives Blechschild mit Musik-Motiv für Wand und Garage",
+      "price": 14.99,
+      "image": "blechschild-musik.jpeg"
+    },
+    {
+      "barcode": "P3-043",
+      "name": "Blechschild Romantisch",
+      "description": "Nostalgisches Blechschild mit romantischem Vintage-Design",
+      "price": 14.99,
+      "image": "blechschild-romantisch.jpeg"
+    },
+    {
+      "barcode": "P3-044",
+      "name": "Camouflage Wellblech",
+      "description": "Wellblech mit Tarnmuster für Garten, Jagd und Outdoor-Projekte",
+      "price": 29.99,
+      "image": "camouflage-wellblech.jpeg"
+    },
+    {
+      "barcode": "P3-045",
+      "name": "Deckenleuchte Romantisch",
+      "description": "Elegante Deckenleuchte im romantischen Stil für Wohnräume",
+      "price": 49.99,
+      "image": "deckenleuchte-romantisch.jpeg"
+    },
+    {
+      "barcode": "P3-046",
+      "name": "DIY Projektbuch",
+      "description": "Inspirierendes Buch mit kreativen DIY-Projekten für Zuhause",
+      "price": 19.99,
+      "image": "diy-projektbuch.jpeg"
+    },
+    {
+      "barcode": "P3-047",
+      "name": "Doppel-Maulschlüssel",
+      "description": "Hochwertiger Doppel-Maulschlüssel aus Chrom-Vanadium-Stahl",
+      "price": 8.99,
+      "image": "doppel-maulschlüssel.jpeg"
+    },
+    {
+      "barcode": "P3-048",
+      "name": "Fensterreiniger Konzentrat",
+      "description": "Effektives Fensterreiniger-Konzentrat für streifenfreien Glanz",
+      "price": 6.99,
+      "image": "fensterreiniger-konzentrat.jpeg"
+    },
+    {
+      "barcode": "P3-049",
+      "name": "Fliesenschwamm",
+      "description": "Professioneller Schwamm zum Verfugen und Reinigen von Fliesen",
+      "price": 4.99,
+      "image": "fliesenschwamm.jpeg"
+    },
+    {
+      "barcode": "P3-050",
+      "name": "Gartenschlauch",
+      "description": "Flexibler Gartenschlauch für Bewässerung und Reinigung",
+      "price": 24.99,
+      "image": "gartenschlauch.jpeg"
+    },
+    {
+      "barcode": "P3-051",
+      "name": "Gießkanne",
+      "description": "Praktische Gießkanne für Garten und Balkonpflanzen",
+      "price": 9.99,
+      "image": "gießkanne.jpeg"
+    },
+    {
+      "barcode": "P3-052",
+      "name": "Holzhandlauf Treppe",
+      "description": "Massiver Holzhandlauf für Treppengeländer",
+      "price": 44.99,
+      "image": "holzhandlauf-treppe.jpeg"
+    },
+    {
+      "barcode": "P3-053",
+      "name": "LED-Leuchtstäbe",
+      "description": "Moderne LED-Leuchtstäbe für stimmungsvolle Beleuchtung",
+      "price": 19.99,
+      "image": "led-leuchtstaebe.jpeg"
+    },
+    {
+      "barcode": "P3-054",
+      "name": "Lochsäge",
+      "description": "Lochsägen-Set für präzise Bohrungen in Holz und Kunststoff",
+      "price": 22.99,
+      "image": "lochsaege.jpeg"
+    },
+    {
+      "barcode": "P3-055",
+      "name": "Meterstab",
+      "description": "Klassischer Zollstock aus Holz, 2 Meter",
+      "price": 4.99,
+      "image": "meterstab.jpeg"
+    },
+    {
+      "barcode": "P3-056",
+      "name": "Montane Hardcore Spray",
+      "description": "Hochleistungs-Schutzspray für Outdoor-Ausrüstung und Textilien",
+      "price": 16.99,
+      "image": "montane-hardcore-spray.jpeg"
+    },
+    {
+      "barcode": "P3-057",
+      "name": "Pinselset",
+      "description": "Umfangreiches Pinselset für Maler- und Lackierarbeiten",
+      "price": 14.99,
+      "image": "pinselset.jpeg"
+    },
+    {
+      "barcode": "P3-058",
+      "name": "Schraubenzieher",
+      "description": "Ergonomischer Schraubenzieher für Kreuz- und Schlitzschrauben",
+      "price": 6.99,
+      "image": "schraubenzieher.jpeg"
+    },
+    {
+      "barcode": "P3-059",
+      "name": "Sexy Spiegelaufkleber",
+      "description": "Witziger Spiegelaufkleber für Bad oder Schlafzimmer",
+      "price": 8.99,
+      "image": "sexy-spiegelaufkleber.jpeg"
+    },
+    {
+      "barcode": "P3-060",
+      "name": "Trennscheiben",
+      "description": "Trennscheiben-Set für Winkelschleifer, Metall und Stein",
+      "price": 11.99,
+      "image": "trennscheiben.jpeg"
+    },
+    {
+      "barcode": "P3-061",
+      "name": "Welpen-Auslaufgehege",
+      "description": "Flexibles Auslaufgehege für Welpen und Kleintiere",
+      "price": 54.99,
+      "image": "welpen-auslauf-gehege.jpeg"
     }
   ],
   "instructions": "Füge neue Produkte hinzu: 1) Bild in public/images legen, 2) Eintrag hier hinzufügen mit barcode, name, description, price und image (nur Dateiname)"
